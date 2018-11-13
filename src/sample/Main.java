@@ -1,35 +1,46 @@
 package sample;
-//Using JavaFx Demo by New Boston on Youtube.
-import com.sun.java.util.jar.pack.Attribute;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import  javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
-import javafx.scene.Node;
 import javafx.stage.Stage;
 
-import java.awt.*;
 
-public class Main extends Application {
+public class Main extends Application implements EventHandler<ActionEvent>{
 
     Button button;
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
-        primaryStage.show();
-
-        button = new Button();
-        button.setLabel("Click Me");
-
-        StackPane layout = new StackPane();
-
-    }
-
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+
+    public void start(Stage primaryStage) throws Exception {
+        primaryStage.setTitle("Title of the Window");
+        button = new Button();
+        button.setText("Click me");
+
+        button.setOnAction(this::handle);
+
+        StackPane layout = new StackPane();
+        layout.getChildren().add(button);
+
+        Scene scene = new Scene(layout, 300, 250);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    @Override
+    public void handle(ActionEvent event) {
+        //handle is an event called whenever the user clicks the button. Essentially what they want to do
+
+        if (event.getSource()== button){
+            System.out.println("You clicked the button!");
+        }
+
     }
 }
