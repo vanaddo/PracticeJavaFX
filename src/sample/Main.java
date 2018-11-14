@@ -19,12 +19,16 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 
     @Override
 
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         primaryStage.setTitle("Title of the Window");
         button = new Button();
         button.setText("Click me");
 
-        button.setOnAction(this::handle);
+       //This class will handle the button events
+      button.setOnAction(e -> {
+      System.out.println("Hey brown cow ");
+        System.out.println("I am a meatball");
+      });
 
         StackPane layout = new StackPane();
         layout.getChildren().add(button);
