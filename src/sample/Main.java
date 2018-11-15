@@ -23,7 +23,10 @@ public class Main extends Application {
 
 
     button = new Button("Click Me");
-    button.setOnAction(e -> AlertBox.display("Title of Window ", "Wow this alert boax is awesome!"));
+    button.setOnAction(e -> {
+      boolean result = ConfirmBox.display("Title of Window", "Are you sure you want to send the document?");
+      System.out.println(result);
+    });
 
     StackPane layout = new StackPane();
     layout.getChildren().add(button);
