@@ -19,14 +19,16 @@ public class Main extends Application {
   public void start(Stage primaryStage){
 
     window = primaryStage;
-    window.setTitle("The New Boston Tutorial");
-
-
-    button = new Button("Click Me");
-    button.setOnAction(e -> {
-      boolean result = ConfirmBox.display("Title of Window", "Are you sure you want to send the document?");
-      System.out.println(result);
+    window.setTitle("JavaFx- The New Boston Tutorial");
+    window.setOnCloseRequest(e -> {
+      e.consume();
+      closeProgram();
     });
+
+
+    button = new Button("Close Program");
+    button.setOnAction(e -> closeProgram());
+
 
     StackPane layout = new StackPane();
     layout.getChildren().add(button);
@@ -34,6 +36,11 @@ public class Main extends Application {
     window.setScene(scene);
     window.show();
 
+  }
+  private void closeProgram(){
+   Boolean answer = ConfirmBox.display("Title" , "Are you sure you want to exit the program?");
+   if (answer)
+      window.close();
   }
 
 
