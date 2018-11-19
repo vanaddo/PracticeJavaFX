@@ -7,13 +7,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import javax.xml.soap.Text;
 
 
 public class Main extends Application {
 
   Stage window;
-  //Button button;
+  Scene scene;
+  Button button;
 
   public static void main(String[] args) {
     launch(args);
@@ -24,12 +28,19 @@ public class Main extends Application {
 
     window = primaryStage;
     window.setTitle("JavaFx- The New Boston Tutorial");
-    GridPane grid = new GridPane();
-    grid.setPadding(new Insets(10,10,10,10));
-    grid.setVgap(8);
-    grid.setHgap(10);
+   //Form
+    TextField nameInput = new TextField("Sam");
+    button = new Button("Click Me");
+    button.setOnAction(e -> isInt(nameInput,nameInput.getText()));
+  //Layout
+    VBox layout = new VBox(10);
+    layout.setPadding(new Insets(20,20,20,20));
+    layout.getChildren().addAll(nameInput, button);
 
-    //Name label
+    scene = new Scene(layout,300,250);
+
+
+    /*//Name label
     Label nameLabel = new Label("Username:");
     GridPane.setConstraints(nameLabel,0,0);
 
@@ -51,7 +62,7 @@ public class Main extends Application {
     GridPane.setConstraints(loginButton,1,2);
 
     grid.getChildren().addAll(nameLabel,nameInput,passLabel,passInput,loginButton);
-    Scene scene = new Scene(grid,300,200);
+    Scene scene = new Scene(grid,300,200);*/
 
     window.setScene(scene);
     window.show();
@@ -67,6 +78,19 @@ public class Main extends Application {
     window.show();
 
   }
+
+  private boolean isInt(TextField input, String message){
+    try {
+      int age = Integer.parseInt(input.getText());
+      System.out.println("User is: " +age);
+      return true;
+    }catch (NumberFormatException e){
+      System.out.println("Error: " + message + " is not a number");
+      return false;
+    }
+  }
+
+
   /*private void closeProgram(){
    Boolean answer = ConfirmBox.display("Title" , "Are you sure you want to exit the program?");
    if (answer)
