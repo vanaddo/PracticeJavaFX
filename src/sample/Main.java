@@ -2,10 +2,7 @@ package sample;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -28,26 +25,43 @@ public class Main extends Application {
   public void start(Stage primaryStage){
 
     window = primaryStage;
-    window.setTitle("JavaFx- CheckBox Subs");
+    window.setTitle("JavaFx- ChoiceBox");
+    button = new Button("Click Me!");
 //   //Form
 //    TextField nameInput = new TextField("Sam");
 
 
-    //Checkboxes
+//    //Checkboxes
+//
+//    CheckBox box1 = new CheckBox("Bacon");
+//    CheckBox box2 = new CheckBox("Salami");
+//    box2.setSelected(true);
 
-    CheckBox box1 = new CheckBox("Bacon");
-    CheckBox box2 = new CheckBox("Salami");
-    box2.setSelected(true);
     //Button
-    button = new Button("Order Now!");
-    button.setOnAction(e -> handleOptions(box1, box2));
+
+//    button.setOnAction(e -> handleOptions(box1, box2));
 //  button.setOnAction(e -> isInt(nameInput,nameInput.getText()));
 //
-;
+
+    //ChoiceBox
+
+    ChoiceBox<String> choiceBox = new ChoiceBox<>();
+
+    //getItems returns theObservableList object which you can add items to
+    choiceBox.getItems().add("Apples");
+    choiceBox.getItems().add("Oranges");
+    choiceBox.getItems().add("Grapes");
+    choiceBox.getItems().add("Cherries");
+    choiceBox.getItems().addAll("Bananas","Strawberries","Grapefruits");
+
+   choiceBox.setValue("Apples");
+
+   button.setOnAction(e-> getChoice(choiceBox));
+
   //Layout
     VBox layout = new VBox(10);
     layout.setPadding(new Insets(20,20,20,20));
-    layout.getChildren().addAll(box1,box2, button);
+    layout.getChildren().addAll(choiceBox, button);
 
     scene = new Scene(layout,300,250);
 
@@ -86,22 +100,28 @@ public class Main extends Application {
    /* StackPane layout = new StackPane();
     layout.getChildren().add(button);
     Scene scene = new Scene(layout,300,250);
-    window.setScene(scene);*/
+    window.setScene(scene);
     window.show();
+    */
 
   }
-//Handle Check Box Options
+ /*//Handle Check Box Options
   private void  handleOptions(CheckBox box1,CheckBox box2) {
     String message = "You ordered:\n";
-    if(box1.isSelected()){
+    if (box1.isSelected()) {
       message += "Bacon\n";
-  }
-    if (box2.isSelected()){
+    }
+    if (box2.isSelected()) {
       message += "Tuna\n";
     }
     System.out.println(message);
+  }*/
 
 
+ private void getChoice( ChoiceBox<String> choiceBox){
+   String food = choiceBox.getValue();
+   System.out.println(food);
+ }
 //  private boolean isInt(TextField input, String message){
 //    try {
 //      int age = Integer.parseInt(input.getText());
@@ -111,7 +131,7 @@ public class Main extends Application {
 //      System.out.println("Error: " + message + " is not a number");
 //      return false;
 //    }
-  }
+
 
 
   /*private void closeProgram(){
