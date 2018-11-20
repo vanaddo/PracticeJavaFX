@@ -1,14 +1,11 @@
 package sample;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import javax.xml.soap.Text;
 
 
 public class Main extends Application {
@@ -16,7 +13,9 @@ public class Main extends Application {
   Stage window;
   Scene scene;
   Button button;
-  ComboBox<String> comboBox;
+//  ComboBox<String> comboBox;
+  ListView<String>listView;
+
 
   public static void main(String[] args) {
     launch(args);
@@ -27,8 +26,14 @@ public class Main extends Application {
 
     window = primaryStage;
     window.setTitle("JavaFx- ChoiceBox");
-    button = new Button("Click Me!");
-    comboBox = new ComboBox<>();
+    button = new Button("Submit");
+
+    listView = new ListView<>();
+    listView.getItems().addAll("Black Panther","Brown Sugar","Boomerang","Blank Man!");
+    listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+    button.setOnAction(e-> buttonClicked());
+   /* comboBox = new ComboBox<>();
     comboBox.getItems().addAll(
             "Love and Basketball",
             "Black Panther",
@@ -39,7 +44,7 @@ public class Main extends Application {
 
     comboBox.setEditable(true);
     button.setOnAction(e -> printMovie());
-    comboBox.setOnAction(e-> System.out.println("User selected: " + comboBox.getValue()));
+    comboBox.setOnAction(e-> System.out.println("User selected: " + comboBox.getValue()));*/
 
 //   //Form
 //    TextField nameInput = new TextField("Sam");
@@ -76,7 +81,7 @@ public class Main extends Application {
   //Layout
     VBox layout = new VBox(10);
     layout.setPadding(new Insets(20,20,20,20));
-    layout.getChildren().addAll(comboBox, button);
+    layout.getChildren().addAll(listView, button);
 
     scene = new Scene(layout,300,250);
 
@@ -120,10 +125,21 @@ public class Main extends Application {
     */
 
   }
-  //Print out a movie
+
+  private void buttonClicked(){
+    java.lang.String message = "";
+    ObservableList<String> movies;
+    movies = listView.getSelectionModel().getSelectedItems();
+
+    for (String m: movies){
+      message += m +"\n";
+    }
+    System.out.println(message);
+  }
+ /* //Print out a movie
   private void printMovie(){
     System.out.println(comboBox.getValue());
-  }
+  }*/
  /*//Handle Check Box Options
   private void  handleOptions(CheckBox box1,CheckBox box2) {
     String message = "You ordered:\n";
