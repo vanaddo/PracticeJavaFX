@@ -53,10 +53,11 @@ public class Main extends Application {
     choiceBox.getItems().add("Grapes");
     choiceBox.getItems().add("Cherries");
     choiceBox.getItems().addAll("Bananas","Strawberries","Grapefruits");
-
    choiceBox.setValue("Apples");
 
-   button.setOnAction(e-> getChoice(choiceBox));
+   //Listen for selection changes
+    choiceBox.getSelectionModel().selectedItemProperty().addListener((v,oldValue, newValue) -> System.out.println(newValue));
+   //button.setOnAction(e-> getChoice(choiceBox));
 
   //Layout
     VBox layout = new VBox(10);
@@ -118,10 +119,10 @@ public class Main extends Application {
   }*/
 
 
- private void getChoice( ChoiceBox<String> choiceBox){
+/* private void getChoice( ChoiceBox<String> choiceBox){
    String food = choiceBox.getValue();
    System.out.println(food);
- }
+ }*/
 //  private boolean isInt(TextField input, String message){
 //    try {
 //      int age = Integer.parseInt(input.getText());
