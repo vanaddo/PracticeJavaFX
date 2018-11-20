@@ -16,6 +16,7 @@ public class Main extends Application {
   Stage window;
   Scene scene;
   Button button;
+  ComboBox<String> comboBox;
 
   public static void main(String[] args) {
     launch(args);
@@ -27,6 +28,19 @@ public class Main extends Application {
     window = primaryStage;
     window.setTitle("JavaFx- ChoiceBox");
     button = new Button("Click Me!");
+    comboBox = new ComboBox<>();
+    comboBox.getItems().addAll(
+            "Love and Basketball",
+            "Black Panther",
+            "Harlem Nights"
+    );
+
+    comboBox.setPromptText("What is your favorite movie?");
+
+    comboBox.setEditable(true);
+    button.setOnAction(e -> printMovie());
+    comboBox.setOnAction(e-> System.out.println("User selected: " + comboBox.getValue()));
+
 //   //Form
 //    TextField nameInput = new TextField("Sam");
 
@@ -43,26 +57,26 @@ public class Main extends Application {
 //  button.setOnAction(e -> isInt(nameInput,nameInput.getText()));
 //
 
-    //ChoiceBox
-
-    ChoiceBox<String> choiceBox = new ChoiceBox<>();
-
-    //getItems returns theObservableList object which you can add items to
-    choiceBox.getItems().add("Apples");
-    choiceBox.getItems().add("Oranges");
-    choiceBox.getItems().add("Grapes");
-    choiceBox.getItems().add("Cherries");
-    choiceBox.getItems().addAll("Bananas","Strawberries","Grapefruits");
-   choiceBox.setValue("Apples");
-
-   //Listen for selection changes
-    choiceBox.getSelectionModel().selectedItemProperty().addListener((v,oldValue, newValue) -> System.out.println(newValue));
+//    //ChoiceBox
+//
+//    ChoiceBox<String> choiceBox = new ChoiceBox<>();
+//
+//    //getItems returns theObservableList object which you can add items to
+//    choiceBox.getItems().add("Apples");
+//    choiceBox.getItems().add("Oranges");
+//    choiceBox.getItems().add("Grapes");
+//    choiceBox.getItems().add("Cherries");
+//    choiceBox.getItems().addAll("Bananas","Strawberries","Grapefruits");
+//    choiceBox.setValue("Apples");
+//
+//   //Listen for selection changes
+//    choiceBox.getSelectionModel().selectedItemProperty().addListener((v,oldValue, newValue) -> System.out.println(newValue));
    //button.setOnAction(e-> getChoice(choiceBox));
 
   //Layout
     VBox layout = new VBox(10);
     layout.setPadding(new Insets(20,20,20,20));
-    layout.getChildren().addAll(choiceBox, button);
+    layout.getChildren().addAll(comboBox, button);
 
     scene = new Scene(layout,300,250);
 
@@ -105,6 +119,10 @@ public class Main extends Application {
     window.show();
     */
 
+  }
+  //Print out a movie
+  private void printMovie(){
+    System.out.println(comboBox.getValue());
   }
  /*//Handle Check Box Options
   private void  handleOptions(CheckBox box1,CheckBox box2) {
