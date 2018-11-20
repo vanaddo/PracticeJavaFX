@@ -6,15 +6,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import sun.reflect.generics.tree.Tree;
 
 
 public class Main extends Application {
 
   Stage window;
-  Scene scene;
-  Button button;
+   Scene scene;
+//  Button button;
 //  ComboBox<String> comboBox;
-  ListView<String>listView;
+//  ListView<String>listView;
+
+  TreeView<String> tree;
 
 
   public static void main(String[] args) {
@@ -26,13 +29,42 @@ public class Main extends Application {
 
     window = primaryStage;
     window.setTitle("JavaFx- ChoiceBox");
-    button = new Button("Submit");
+
+    TreeItem<String> root,sam,paul;
+
+    //Root
+
+    root = new TreeItem<>();
+    root.setExpanded(true);
+
+    //sam Branch
+    sam = makeBranch("Sam", root);
+    makeBranch("Thai Food", sam);
+    makeBranch("Chocolate", sam);
+    makeBranch("Warm Weather", sam);
+
+    //Paul Branch
+    paul = makeBranch("Paul", root);
+    makeBranch("Italian Food",paul);
+    makeBranch("Ice Cream",paul);
+    makeBranch("Fall Weather", paul);
+
+  //create tree
+    tree = new TreeView<>(root);
+    tree.setShowRoot(false);
+    tree.getSelectionModel().selectedItemProperty()
+            .addListener((v, oldValue, newValue)->{
+              if (newValue != null)
+                System.out.println(newValue.getValue());
+            });
+
+    /*button = new Button("Submit");
 
     listView = new ListView<>();
     listView.getItems().addAll("Black Panther","Brown Sugar","Boomerang","Blank Man!");
     listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-    button.setOnAction(e-> buttonClicked());
+    button.setOnAction(e-> buttonClicked());*/
    /* comboBox = new ComboBox<>();
     comboBox.getItems().addAll(
             "Love and Basketball",
@@ -81,7 +113,7 @@ public class Main extends Application {
   //Layout
     VBox layout = new VBox(10);
     layout.setPadding(new Insets(20,20,20,20));
-    layout.getChildren().addAll(listView, button);
+    layout.getChildren().add(tree);
 
     scene = new Scene(layout,300,250);
 
@@ -117,6 +149,7 @@ public class Main extends Application {
 
 
 
+
    /* StackPane layout = new StackPane();
     layout.getChildren().add(button);
     Scene scene = new Scene(layout,300,250);
@@ -125,7 +158,15 @@ public class Main extends Application {
     */
 
   }
+//Create Branches
 
+  public TreeItem<String> makeBranch(String title, TreeItem<String> parent){
+    TreeItem<String> item = new TreeItem<>(title);
+    item.setExpanded(true);
+    parent.getChildren().add(item);
+    return item;
+  }
+/*
   private void buttonClicked(){
     java.lang.String message = "";
     ObservableList<String> movies;
@@ -135,7 +176,7 @@ public class Main extends Application {
       message += m +"\n";
     }
     System.out.println(message);
-  }
+  }*/
  /* //Print out a movie
   private void printMovie(){
     System.out.println(comboBox.getValue());
