@@ -1,16 +1,9 @@
 package sample;
+import com.sun.org.apache.bcel.internal.generic.LADD;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 
@@ -18,12 +11,13 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
   Stage window;
-  TableView<Product>table;
-  TextField nameInput, priceInput, quantityInput;
+  BorderPane layout;
+
 
 
 
   public static void main(String[] args) {
+
     launch(args);
   }
 
@@ -33,102 +27,52 @@ public class Main extends Application {
     window = primaryStage;
     window.setTitle("thenewboston-JavaFx");
 
-    //Name Column
-    TableColumn<Product, String> nameColumn = new TableColumn<>("Name");
-    nameColumn.setMinWidth(200);
-    nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+    //File Menu
+    Menu fileMenu = new Menu("File");
 
-    //Price Column
-    TableColumn<Product, Double> priceColumn = new TableColumn<>("Price");
-    priceColumn.setMinWidth(100);
-    priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+    //File Menu Items
 
-    //Quantity Column
-    TableColumn<Product, Integer> quantityColumn = new TableColumn<>("Quantity");
-    quantityColumn.setMinWidth(100);
-    quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+    //Creating a new menu item and setting the menu items to actionable
+    MenuItem newFile = new MenuItem("New");
+    newFile.setOnAction(e-> System.out.println("Create New File..."));
+    fileMenu.getItems().add(newFile);
 
-    //Name Input
-    nameInput = new TextField();
-    nameInput.setPromptText("Name");
-    nameInput.setMinWidth(100);
+    //Creating a new menu item
+    fileMenu.getItems().add(new MenuItem("Open..."));
+    fileMenu.getItems().add(new MenuItem("Save..."));
+    fileMenu.getItems().add(new SeparatorMenuItem());
+    fileMenu.getItems().add(new MenuItem("Settings..."));
+    fileMenu.getItems().add(new SeparatorMenuItem()); //Creates a visible line of separation between menu items. In this case "Settings" and "Exit".
+    fileMenu.getItems().add(new MenuItem("Exit..."));
 
-    //Price Input
-    priceInput = new TextField();
-    priceInput.setPromptText("Price");
+    //Edit Menu
 
+    /*Putting an underscore right be for the name of the menu it creates a shortcut.
+     So if the user does "alt + e" in this case the system will open the "edit" menu*/
+    Menu editMenu = new Menu("_Edit");
 
-    //Quantity Input
-    quantityInput = new TextField();
-    quantityInput.setPromptText("Quantity");
+    //Edit Menu Items
+    editMenu.getItems().addAll(new MenuItem("Undo"));
+    editMenu.getItems().add(new MenuItem("Cut"));
 
-    //Add & Delete Buttons
-    Button addButton = new Button("Add");
-    addButton.setOnAction(e-> addButtonClicked());
-    Button deleteButton = new Button("Delete");
-    deleteButton.setOnAction(e-> deleteButtonClicked());
+    MenuItem copy = new MenuItem("Copy");
+    copy.setOnAction(e-> System.out.println("Copying some random ass shit..."));
+    editMenu.getItems().add(copy); //adds the new Item and its function to the menu
 
-  //setting our variables into HBoc=x sets their layout to be set up horizontally
-    HBox hBox = new HBox();
-    hBox.setPadding(new Insets(10,10,10,10));
-    hBox.setSpacing(10); //creates spacing between the "add" & "delete" buttons, and inputs
-    hBox.getChildren().addAll(nameInput,priceInput,quantityInput,addButton,deleteButton);
+    MenuItem paste = new MenuItem("Paste");
+    paste.setDisable(true);// disables paste button
+    editMenu.getItems().add(paste);
 
 
 
-
-
-
-
-    //Set Table Up
-    table = new TableView<>();
-    table.setItems(getProduct());
-    table.getColumns().addAll(nameColumn,priceColumn,quantityColumn);
-
-    VBox vBox = new VBox();
-    vBox.getChildren().addAll(table,hBox); // placing the Hbox in here allows the variables listed in the HBox settings to show on the table itself
-
-    Scene scene = new Scene(vBox);
+    //Main Menu Bar
+    MenuBar menuBar = new MenuBar();
+    menuBar.getMenus().addAll(fileMenu,editMenu); //add individual menus to menu bar
+    layout = new BorderPane();
+    layout.setTop(menuBar);
+    Scene scene = new Scene(layout, 400, 300);
     window.setScene(scene);
     window.show();
-  }
-
-  //Add Button Clicked
-  public void addButtonClicked(){
-    Product product = new Product();
-    product.setName(nameInput.getText());
-    product.setPrice(Double.parseDouble(priceInput.getText())); //Look at your notes to reference NumberFormatException
-    product.setQuantity(Integer.parseInt(quantityInput.getText()));
-    table.getItems().add(product); //adds the inputted product info to the table
-    nameInput.clear(); //clears the inputted fields after the product has been added to the table
-    priceInput.clear();
-    quantityInput.clear();
-  }
-
-//Delete Button Clicked
-
-  public void deleteButtonClicked(){
-    ObservableList<Product> productSelected, allProducts; // creates two observable list. The 1st is the product that the user selected the 2nd is a list of all the existing products in the table
-    allProducts = table.getItems(); //gets all the existing products from the table
-    productSelected = table.getSelectionModel().getSelectedItems(); //returns any item that the user has selected(Clicked on)
-
-    productSelected.forEach(allProducts::remove); // for each product that the user has selected remove from the all products list(Main Table)
-
-
-
-  }
-
-  //Gets all of the products
-  public ObservableList<Product> getProduct(){
-    //points the system to the database or file that it needs to get the info from
-   ObservableList<Product>products = FXCollections.observableArrayList();
-   products.add(new Product("Laptop",350.00,30));
-   products.add(new Product("IPad",300.00,25));
-   products.add(new Product("Headphones",180.00,15));
-   products.add(new Product("Monitor",150.00,40));
-   products.add(new Product("Extension Cords",10.00,200));
-   return products;
-
   }
 }
 
